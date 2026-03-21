@@ -469,6 +469,90 @@ const EarnMoneyPage: React.FC = () => {
   );
 };
 
+const WatchPage: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email || "";
+  const [watching, setWatching] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [wallet, setWallet] = useState<UserWallet>(() => getWallet(email));
+
+  const handleWatch = () => {
+    setWatching(true);
+    let p = 0;
+    const interval = setInterval(() => {
+      p += 1;
+      setProgress(p);
+      if (p >= 100) {
+        clearInterval(interval);
+        const reward = 500;
+        const newWallet: UserWallet = {
+          balance: wallet.balance + reward,
+          transactions: [
+            {
+              id: `watch-${Date.now()}`,
+              type: 'Credit',
+              label: 'Video Watch Reward',
+              amount: reward,
+              date: new Date().toLocaleDateString()
+            },
+            ...wallet.transactions
+          ]
+        };
+        updateWallet(email, newWallet);
+        setWallet(newWallet);
+        setWatching(false);
+        setProgress(0);
+        alert(`Congratulations! You earned ₦${reward} for watching.`);
+      }
+    }, 100);
+  };
+
+  return (
+    <div className="w-full animate-in fade-in duration-500">
+      <div className="flex items-center bg-purple-600 text-white p-3 -mx-8 -mt-8 mb-6 sticky top-0 z-10">
+        <button onClick={() => navigate(-1)} className="mr-3">
+          <i className="fas fa-arrow-left text-lg"></i>
+        </button>
+        <h1 className="text-lg font-bold">Watch & Earn</h1>
+      </div>
+
+      <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700 text-center">
+        <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 dark:bg-blue-900/20 dark:text-blue-400">
+          <i className="fas fa-tv text-3xl"></i>
+        </div>
+        <h2 className="text-xl font-bold text-gray-800 mb-2 dark:text-white">Watch Videos</h2>
+        <p className="text-gray-500 text-xs mb-8 dark:text-gray-400">Watch short promotional videos to earn ₦500 daily rewards.</p>
+
+        {watching ? (
+          <div className="space-y-4">
+            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden dark:bg-gray-700">
+              <div className="h-full bg-blue-600 transition-all duration-100" style={{ width: `${progress}%` }}></div>
+            </div>
+            <p className="text-[10px] font-bold text-blue-600 uppercase animate-pulse">Watching Video... {progress}%</p>
+          </div>
+        ) : (
+          <button 
+            onClick={handleWatch}
+            className="w-full h-14 bg-blue-600 text-white rounded-2xl text-base font-bold shadow-xl active:scale-95 transition-all"
+          >
+            Start Watching
+          </button>
+        )}
+      </div>
+
+      <div className="mt-8 bg-blue-50 p-6 rounded-[2rem] border border-blue-100 dark:bg-blue-900/10 dark:border-blue-900/20">
+        <h4 className="text-xs font-bold text-blue-800 mb-2 dark:text-blue-300">How it works:</h4>
+        <ul className="text-[10px] text-blue-700 space-y-2 dark:text-blue-400 font-medium">
+          <li className="flex items-center"><i className="fas fa-check-circle mr-2"></i> Click start watching to begin</li>
+          <li className="flex items-center"><i className="fas fa-check-circle mr-2"></i> Stay on the page until progress reaches 100%</li>
+          <li className="flex items-center"><i className="fas fa-check-circle mr-2"></i> Reward is automatically added to your wallet</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
 const BuyAirtimePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -728,6 +812,12 @@ const ProfilePage: React.FC = () => {
         </div>
         <p className="mt-2 text-xs font-bold text-gray-400 uppercase tracking-widest">{email}</p>
         <p className="mt-1 text-[10px] font-black text-purple-600 uppercase">Account Level: {userData?.level || 'Basic'}</p>
+        {userData?.hasPayId && (
+          <div className="mt-3 px-4 py-1.5 bg-green-50 border border-green-100 rounded-full flex items-center space-x-2 dark:bg-green-900/20 dark:border-green-900/30">
+            <i className="fas fa-id-card text-green-600 text-[10px]"></i>
+            <span className="text-[10px] font-black text-green-700 uppercase dark:text-green-400 tracking-widest">PAY ID: {userData.payId}</span>
+          </div>
+        )}
       </div>
 
       <div className="space-y-6">
@@ -784,7 +874,7 @@ const UpgradeAccountPage: React.FC = () => {
   const [copying, setCopying] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('7044042487');
+    navigator.clipboard.writeText('6542799206');
     setCopying(true);
     setTimeout(() => setCopying(false), 2000);
   };
@@ -822,7 +912,17 @@ const UpgradeAccountPage: React.FC = () => {
     setConfirmError('');
     setTimeout(() => {
       setConfirmLoading(false);
-      setConfirmError('System on Maintenance. Please try again later.');
+      setView('success');
+      
+      // Update user level in localStorage
+      const users = JSON.parse(localStorage.getItem('paygo_users') || '[]');
+      const updatedUsers = users.map((u: any) => {
+        if (u.email === location.state?.email) {
+          return { ...u, level: selectedLevel?.name };
+        }
+        return u;
+      });
+      localStorage.setItem('paygo_users', JSON.stringify(updatedUsers));
     }, 3000);
   };
 
@@ -911,7 +1011,7 @@ const UpgradeAccountPage: React.FC = () => {
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Number</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">7044042487</span>
+                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">6542799206</span>
                   <button 
                     onClick={handleCopy}
                     className="w-6 h-6 flex items-center justify-center rounded-md bg-purple-100 text-purple-600 hover:bg-purple-200 transition-colors"
@@ -922,11 +1022,11 @@ const UpgradeAccountPage: React.FC = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Bank Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">Moniepoint</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">OPAY</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">Sunday Sylvester O.</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">sunday Sylvester O.</span>
               </div>
             </div>
           </div>
@@ -1053,7 +1153,7 @@ const BuyPayIdPage: React.FC = () => {
   const name = location.state?.name || "User";
   const email = location.state?.email || "";
   
-  const [view, setView] = useState<'form' | 'loading' | 'details'>('form');
+  const [view, setView] = useState<'form' | 'loading' | 'details' | 'success'>('form');
   const [progress, setProgress] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [confirmError, setConfirmError] = useState('');
@@ -1061,7 +1161,7 @@ const BuyPayIdPage: React.FC = () => {
   const [copying, setCopying] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('7044042487');
+    navigator.clipboard.writeText('6542799206');
     setCopying(true);
     setTimeout(() => setCopying(false), 2000);
   };
@@ -1096,9 +1196,39 @@ const BuyPayIdPage: React.FC = () => {
     setConfirmError('');
     setTimeout(() => {
       setConfirmLoading(false);
-      setConfirmError('Payment Failed.');
+      setView('success');
+      
+      // Update user data to indicate PAY ID purchased
+      const users = JSON.parse(localStorage.getItem('paygo_users') || '[]');
+      const updatedUsers = users.map((u: any) => {
+        if (u.email === email) {
+          return { ...u, hasPayId: true, payId: 'ID999' };
+        }
+        return u;
+      });
+      localStorage.setItem('paygo_users', JSON.stringify(updatedUsers));
     }, 3000);
   };
+
+  if (view === 'success') {
+    return (
+      <div className="w-full py-10 flex flex-col items-center text-center animate-in zoom-in-95">
+        <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+          <i className="fas fa-check text-3xl"></i>
+        </div>
+        <h1 className="text-xl font-black text-gray-800 mb-3 uppercase dark:text-white">Payment Successful!</h1>
+        <p className="text-gray-500 text-sm px-6 mb-8 font-medium dark:text-gray-400">
+          Your payment has been received and is being verified. Your PAY ID will be activated shortly.
+        </p>
+        <button 
+          onClick={() => navigate('/dashboard', { state: location.state })}
+          className="w-full h-14 bg-purple-600 text-white rounded-2xl text-base font-bold shadow-xl active:scale-95 transition-all"
+        >
+          Go to Dashboard
+        </button>
+      </div>
+    );
+  }
 
   if (view === 'loading') {
     return (
@@ -1154,13 +1284,13 @@ const BuyPayIdPage: React.FC = () => {
               Step One: Complete Payment
             </h3>
             <p className="text-xs text-gray-500 mb-6 dark:text-gray-400">
-              Transfer exactly ₦7,000 to the management account details below to complete your payment.
+              Transfer exactly ₦6,500 to the management account details below to complete your payment.
             </p>
             <div className="bg-purple-50 rounded-2xl p-5 border border-purple-100 dark:bg-purple-900/20 dark:border-purple-900/30 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Number</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">7044042487</span>
+                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">6542799206</span>
                   <button 
                     onClick={handleCopy}
                     className="w-6 h-6 flex items-center justify-center rounded-md bg-purple-100 text-purple-600 hover:bg-purple-200 transition-colors"
@@ -1171,11 +1301,11 @@ const BuyPayIdPage: React.FC = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Bank Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">Moniepoint</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">OPAY</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">Sunday Sylvester O.</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">sunday Sylvester O.</span>
               </div>
             </div>
           </div>
@@ -1265,7 +1395,7 @@ const BuyPayIdPage: React.FC = () => {
           <div className="relative">
             <input 
               readOnly 
-              value="₦7,000" 
+              value="₦6,500" 
               className="w-full h-14 px-6 bg-white rounded-2xl border border-gray-100 text-gray-500 text-sm font-medium shadow-sm outline-none dark:bg-gray-800 dark:border-gray-700"
             />
           </div>
@@ -1343,7 +1473,11 @@ const TransferPage: React.FC = () => {
 
   const handleVerifyPayId = (e: React.FormEvent) => {
     e.preventDefault();
-    if (payId === 'ID999') {
+    const users = JSON.parse(localStorage.getItem('paygo_users') || '[]');
+    const user = users.find((u: any) => u.email === email);
+    const correctPayId = user?.payId || 'ID999';
+
+    if (payId === correctPayId) {
       const amount = Number(formData.amount);
       const newWallet: UserWallet = {
         balance: wallet.balance - amount,
@@ -1581,6 +1715,8 @@ const DashboardPage: React.FC = () => {
   const handleAction = (id: string) => {
     if (id === 'payid') {
       navigate('/buy-pay-id', { state: { name, email } });
+    } else if (id === 'watch') {
+      navigate('/watch', { state: { name, email } });
     } else if (id === 'profile') {
       navigate('/profile', { state: { name, email } });
     } else if (id === 'earn') {
@@ -1913,6 +2049,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/earn" element={<EarnMoneyPage />} />
+          <Route path="/watch" element={<WatchPage />} />
           <Route path="/buy-airtime" element={<BuyAirtimePage />} />
           <Route path="/buy-data" element={<BuyDataPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
