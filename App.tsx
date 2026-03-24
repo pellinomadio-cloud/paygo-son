@@ -812,12 +812,6 @@ const ProfilePage: React.FC = () => {
         </div>
         <p className="mt-2 text-xs font-bold text-gray-400 uppercase tracking-widest">{email}</p>
         <p className="mt-1 text-[10px] font-black text-purple-600 uppercase">Account Level: {userData?.level || 'Basic'}</p>
-        {userData?.hasPayId && (
-          <div className="mt-3 px-4 py-1.5 bg-green-50 border border-green-100 rounded-full flex items-center space-x-2 dark:bg-green-900/20 dark:border-green-900/30">
-            <i className="fas fa-id-card text-green-600 text-[10px]"></i>
-            <span className="text-[10px] font-black text-green-700 uppercase dark:text-green-400 tracking-widest">PAY ID: {userData.payId}</span>
-          </div>
-        )}
       </div>
 
       <div className="space-y-6">
@@ -865,7 +859,7 @@ const UpgradeAccountPage: React.FC = () => {
   const email = location.state?.email || "";
   const name = location.state?.name || "User";
 
-  const [view, setView] = useState<'selection' | 'details' | 'loading' | 'success' | 'bonus_info'>('selection');
+  const [view, setView] = useState<'selection' | 'details' | 'loading' | 'success' | 'bonus_info' | 'failed'>('selection');
   const [selectedLevel, setSelectedLevel] = useState<{name: string, price: string} | null>(null);
   const [progress, setProgress] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -912,19 +906,36 @@ const UpgradeAccountPage: React.FC = () => {
     setConfirmError('');
     setTimeout(() => {
       setConfirmLoading(false);
-      setView('success');
-      
-      // Update user level in localStorage
-      const users = JSON.parse(localStorage.getItem('paygo_users') || '[]');
-      const updatedUsers = users.map((u: any) => {
-        if (u.email === location.state?.email) {
-          return { ...u, level: selectedLevel?.name };
-        }
-        return u;
-      });
-      localStorage.setItem('paygo_users', JSON.stringify(updatedUsers));
-    }, 3000);
+      setView('failed');
+    }, 4000);
   };
+
+  if (view === 'failed') {
+    return (
+      <div className="w-full py-10 flex flex-col items-center text-center animate-in zoom-in-95">
+        <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-6">
+          <i className="fas fa-times text-3xl"></i>
+        </div>
+        <h1 className="text-xl font-black text-gray-800 mb-3 uppercase dark:text-white">Verification Failed</h1>
+        <p className="text-gray-500 text-sm px-6 mb-8 font-medium dark:text-gray-400">
+          We couldn't verify your payment. Please contact our support team on Telegram with your receipt for manual activation.
+        </p>
+        <button 
+          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          className="w-full h-14 bg-blue-500 text-white rounded-2xl text-base font-bold shadow-xl active:scale-95 transition-all mb-3 flex items-center justify-center"
+        >
+          <i className="fab fa-telegram mr-2"></i>
+          Contact Support
+        </button>
+        <button 
+          onClick={() => setView('selection')}
+          className="w-full h-14 bg-gray-100 text-gray-600 rounded-2xl text-base font-bold active:scale-95 transition-all dark:bg-gray-800 dark:text-gray-400"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   if (view === 'loading') {
     return (
@@ -1153,7 +1164,7 @@ const BuyPayIdPage: React.FC = () => {
   const name = location.state?.name || "User";
   const email = location.state?.email || "";
   
-  const [view, setView] = useState<'form' | 'loading' | 'details' | 'success'>('form');
+  const [view, setView] = useState<'form' | 'loading' | 'details' | 'success' | 'failed'>('form');
   const [progress, setProgress] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [confirmError, setConfirmError] = useState('');
@@ -1196,19 +1207,36 @@ const BuyPayIdPage: React.FC = () => {
     setConfirmError('');
     setTimeout(() => {
       setConfirmLoading(false);
-      setView('success');
-      
-      // Update user data to indicate PAY ID purchased
-      const users = JSON.parse(localStorage.getItem('paygo_users') || '[]');
-      const updatedUsers = users.map((u: any) => {
-        if (u.email === email) {
-          return { ...u, hasPayId: true, payId: 'ID999' };
-        }
-        return u;
-      });
-      localStorage.setItem('paygo_users', JSON.stringify(updatedUsers));
-    }, 3000);
+      setView('failed');
+    }, 4000);
   };
+
+  if (view === 'failed') {
+    return (
+      <div className="w-full py-10 flex flex-col items-center text-center animate-in zoom-in-95">
+        <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-6">
+          <i className="fas fa-times text-3xl"></i>
+        </div>
+        <h1 className="text-xl font-black text-gray-800 mb-3 uppercase dark:text-white">Verification Failed</h1>
+        <p className="text-gray-500 text-sm px-6 mb-8 font-medium dark:text-gray-400">
+          Your payment verification failed. Please contact support on Telegram with your payment receipt for manual activation of your PAY ID.
+        </p>
+        <button 
+          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          className="w-full h-14 bg-blue-500 text-white rounded-2xl text-base font-bold shadow-xl active:scale-95 transition-all mb-3 flex items-center justify-center"
+        >
+          <i className="fab fa-telegram mr-2"></i>
+          Contact Support
+        </button>
+        <button 
+          onClick={() => setView('form')}
+          className="w-full h-14 bg-gray-100 text-gray-600 rounded-2xl text-base font-bold active:scale-95 transition-all dark:bg-gray-800 dark:text-gray-400"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   if (view === 'success') {
     return (
