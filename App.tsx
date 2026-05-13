@@ -868,7 +868,7 @@ const UpgradeAccountPage: React.FC = () => {
   const [copying, setCopying] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('6542799206');
+    navigator.clipboard.writeText('1944520267');
     setCopying(true);
     setTimeout(() => setCopying(false), 2000);
   };
@@ -921,7 +921,7 @@ const UpgradeAccountPage: React.FC = () => {
           We couldn't verify your payment. Please contact our support team on Telegram with your receipt for manual activation.
         </p>
         <button 
-          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          onClick={() => window.open("https://t.me/paygo67", "_blank")}
           className="w-full h-14 bg-blue-500 text-white rounded-2xl text-base font-bold shadow-xl active:scale-95 transition-all mb-3 flex items-center justify-center"
         >
           <i className="fab fa-telegram mr-2"></i>
@@ -1002,7 +1002,7 @@ const UpgradeAccountPage: React.FC = () => {
           <h1 className="text-lg font-bold">Upgrade Confirmation</h1>
         </div>
         <button 
-          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          onClick={() => window.open("https://t.me/paygo67", "_blank")}
           className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
         >
           <i className="fas fa-headset text-xs"></i>
@@ -1022,7 +1022,7 @@ const UpgradeAccountPage: React.FC = () => {
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Number</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">6542799206</span>
+                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">1944520267</span>
                   <button 
                     onClick={handleCopy}
                     className="w-6 h-6 flex items-center justify-center rounded-md bg-purple-100 text-purple-600 hover:bg-purple-200 transition-colors"
@@ -1033,11 +1033,11 @@ const UpgradeAccountPage: React.FC = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Bank Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">OPAY</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">ACCESS BANK</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">sunday Sylvester O.</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">sunday Sylvester O</span>
               </div>
             </div>
           </div>
@@ -1114,7 +1114,7 @@ const UpgradeAccountPage: React.FC = () => {
           <h1 className="text-lg font-bold">Upgrade Account</h1>
         </div>
         <button 
-          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          onClick={() => window.open("https://t.me/paygo67", "_blank")}
           className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
         >
           <i className="fas fa-headset text-xs"></i>
@@ -1172,7 +1172,7 @@ const BuyPayIdPage: React.FC = () => {
   const [copying, setCopying] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('6542799206');
+    navigator.clipboard.writeText('1944520267');
     setCopying(true);
     setTimeout(() => setCopying(false), 2000);
   };
@@ -1222,7 +1222,7 @@ const BuyPayIdPage: React.FC = () => {
           Your payment verification failed. Please contact support on Telegram with your payment receipt for manual activation of your PAY ID.
         </p>
         <button 
-          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          onClick={() => window.open("https://t.me/paygo67", "_blank")}
           className="w-full h-14 bg-blue-500 text-white rounded-2xl text-base font-bold shadow-xl active:scale-95 transition-all mb-3 flex items-center justify-center"
         >
           <i className="fab fa-telegram mr-2"></i>
@@ -1298,7 +1298,7 @@ const BuyPayIdPage: React.FC = () => {
           <h1 className="text-lg font-bold">Payment Confirmation</h1>
         </div>
         <button 
-          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          onClick={() => window.open("https://t.me/paygo67", "_blank")}
           className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
         >
           <i className="fas fa-headset text-xs"></i>
@@ -1318,7 +1318,7 @@ const BuyPayIdPage: React.FC = () => {
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Number</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">6542799206</span>
+                  <span className="text-sm font-black text-purple-900 dark:text-purple-100 select-all">1944520267</span>
                   <button 
                     onClick={handleCopy}
                     className="w-6 h-6 flex items-center justify-center rounded-md bg-purple-100 text-purple-600 hover:bg-purple-200 transition-colors"
@@ -1329,11 +1329,11 @@ const BuyPayIdPage: React.FC = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Bank Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">OPAY</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase">ACCESS BANK</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Account Name</span>
-                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">sunday Sylvester O.</span>
+                <span className="text-sm font-black text-purple-900 dark:text-purple-100 uppercase text-right">sunday Sylvester O</span>
               </div>
             </div>
           </div>
@@ -1410,7 +1410,7 @@ const BuyPayIdPage: React.FC = () => {
           <h1 className="text-lg font-bold">Buy PAY ID</h1>
         </div>
         <button 
-          onClick={() => window.open("https://t.me/paygo77", "_blank")}
+          onClick={() => window.open("https://t.me/paygo67", "_blank")}
           className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
         >
           <i className="fas fa-headset text-xs"></i>
@@ -1759,7 +1759,7 @@ const DashboardPage: React.FC = () => {
     } else if (id === 'group') {
       window.open("https://t.me/chix9ja", "_blank");
     } else if (id === 'support') {
-      window.open("https://t.me/paygo77", "_blank");
+      window.open("https://t.me/paygo67", "_blank");
     }
   };
 
@@ -1918,7 +1918,7 @@ const DashboardPage: React.FC = () => {
       
       {/* WhatsApp Chat Button Floating (matches screenshot) */}
       <button 
-        onClick={() => window.open("https://t.me/paygo77", "_blank")}
+        onClick={() => window.open("https://t.me/paygo67", "_blank")}
         className="fixed bottom-5 right-5 w-12 h-12 bg-purple-600 text-white rounded-full shadow-2xl flex items-center justify-center z-[50] hover:scale-110 active:scale-95 transition-all"
       >
         <i className="fas fa-comment-dots text-xl"></i>
