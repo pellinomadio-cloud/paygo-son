@@ -1,5 +1,6 @@
 {
-  "name": " PayGo - Digital Payments son",
+  "name": "PayGo - Digital Payments son",
   "description": "A modern digital payment platform registration and onboarding experience.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
